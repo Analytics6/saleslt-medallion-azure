@@ -1,0 +1,12 @@
+{
+  "properties": {
+    "type": "AzureDatabricks",
+    "description": "Shared dedicated single-node compute for five-minute SalesLT pipeline.",
+    "typeProperties": {
+      "domain": "https://adb-7405619275354638.18.azuredatabricks.net",
+      "authentication": "MSI",
+      "workspaceResourceId": "/subscriptions/c2383fdd-26a3-44a8-9d61-2c7f2e1e08bf/resourceGroups/AMIT_Azure_retail/providers/Microsoft.Databricks/workspaces/azuredatabricks_retail_sales",
+      "existingClusterId": "1110-063316-xkq7dlm3"
+    }
+  }
+}

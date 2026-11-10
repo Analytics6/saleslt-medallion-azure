@@ -1,0 +1,13 @@
+{
+  "properties": {
+    "type": "AzureSqlTable",
+    "linkedServiceName": {
+      "referenceName": "ls_saleslt_sql_mi",
+      "type": "LinkedServiceReference"
+    },
+    "typeProperties": {
+      "schema": "SalesLT",
+      "table": "Customer"
+    }
+  }
+}

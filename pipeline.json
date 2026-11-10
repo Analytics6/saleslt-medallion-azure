@@ -1,0 +1,22 @@
+{
+  "properties": {
+    "description": "Runs a parameterized Databricks notebook with temporary job compute.",
+    "parameters": {
+      "notebookPath": {"type": "String", "defaultValue": "/Shared/adf_demo_connection"},
+      "message": {"type": "String", "defaultValue": "Hello from Azure Data Factory"}
+    },
+    "activities": [{
+      "name": "Run_Databricks_Notebook",
+      "type": "DatabricksNotebook",
+      "policy": {"timeout": "0.00:30:00", "retry": 0, "retryIntervalInSeconds": 30},
+      "linkedServiceName": {"referenceName": "ls_adb_retail_managed_identity", "type": "LinkedServiceReference"},
+      "typeProperties": {
+        "notebookPath": {"value": "@pipeline().parameters.notebookPath", "type": "Expression"},
+        "baseParameters": {
+          "message": {"value": "@pipeline().parameters.message", "type": "Expression"},
+          "pipeline_run_id": {"value": "@pipeline().RunId", "type": "Expression"}
+        }
+      }
+    }]
+  }
+}

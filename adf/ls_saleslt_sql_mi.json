@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "type": "AzureSqlDatabase",
+    "typeProperties": {
+      "connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=keystoneade3sqlsrvr.database.windows.net;initial catalog=keystonesqldb1",
+      "authenticationType": "SystemAssignedManagedIdentity"
+    }
+  }
+}

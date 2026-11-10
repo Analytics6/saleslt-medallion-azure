@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "description": "Databricks job compute authenticated with Data Factory managed identity.",
+    "type": "AzureDatabricks",
+    "typeProperties": {
+      "domain": "https://adb-7405619275354638.18.azuredatabricks.net",
+      "authentication": "MSI",
+      "workspaceResourceId": "/subscriptions/c2383fdd-26a3-44a8-9d61-2c7f2e1e08bf/resourceGroups/AMIT_Azure_retail/providers/Microsoft.Databricks/workspaces/azuredatabricks_retail_sales",
+      "newClusterNodeType": "Standard_D4ds_v4",
+      "newClusterVersion": "19.x-scala2.13",
+      "newClusterNumOfWorker": "0",
+      "newClusterSparkConf": {
+        "spark.databricks.cluster.profile": "singleNode",
+        "spark.master": "local[*, 4]"
+      },
+      "newClusterCustomTags": {"ResourceClass": "SingleNode"}
+    }
+  }
+}

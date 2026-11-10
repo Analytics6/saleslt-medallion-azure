@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+source/
+outputs/
+activity-query.json
+medallion_run.json
+medallion_status.json
+trigger_status.json
+shared_compute.json
+source_counts.json
+inspect_*.py
+locate_saleslt.py
+fix_sql_identity.py

@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "type": "Parquet",
+    "linkedServiceName": {
+      "referenceName": "ls_shopkart_adls_gen2",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "run_id": {
+        "type": "String"
+      },
+      "table_name": {
+        "type": "String"
+      }
+    },
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobFSLocation",
+        "fileSystem": "bronze",
+        "folderPath": {
+          "value": "@concat('saleslt/raw/',dataset().run_id,'/',dataset().table_name)",
+          "type": "Expression"
+        }
+      },
+      "compressionCodec": "snappy"
+    }
+  }
+}

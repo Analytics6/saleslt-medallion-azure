@@ -1,0 +1,236 @@
+{
+  "run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+  "pipeline_status": "Succeeded",
+  "run_start_utc": "2026-11-10T06:33:34.4796002Z",
+  "run_end_utc": "2026-11-10T06:42:08.3019629Z",
+  "source_counts": {
+    "Address": 450,
+    "Customer": 847,
+    "CustomerAddress": 417,
+    "Product": 295,
+    "ProductCategory": 41,
+    "ProductDescription": 762,
+    "ProductModel": 128,
+    "ProductModelProductDescription": 762,
+    "SalesOrderDetail": 542,
+    "SalesOrderHeader": 32
+  },
+  "persisted_counts": {
+    "bronze": {
+      "Address": 450,
+      "Customer": 847,
+      "CustomerAddress": 417,
+      "Product": 295,
+      "ProductCategory": 41,
+      "ProductDescription": 762,
+      "ProductModel": 128,
+      "ProductModelProductDescription": 762,
+      "SalesOrderDetail": 542,
+      "SalesOrderHeader": 32
+    },
+    "silver": {
+      "Address": 450,
+      "Customer": 847,
+      "CustomerAddress": 417,
+      "Product": 295,
+      "ProductCategory": 41,
+      "ProductDescription": 762,
+      "ProductModel": 128,
+      "ProductModelProductDescription": 762,
+      "SalesOrderDetail": 542,
+      "SalesOrderHeader": 32
+    },
+    "gold": {
+      "dim_customer": 847,
+      "dim_product": 295,
+      "fact_sales": 542,
+      "fact_order": 32,
+      "dim_date": 1,
+      "sales_by_day": 1,
+      "sales_by_product": 142,
+      "sales_by_customer": 32
+    }
+  },
+  "silver_metrics": {
+    "Address": {
+      "input_rows": 450,
+      "output_rows": 450,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "Customer": {
+      "input_rows": 847,
+      "output_rows": 847,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "CustomerAddress": {
+      "input_rows": 417,
+      "output_rows": 417,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "Product": {
+      "input_rows": 295,
+      "output_rows": 295,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "ProductCategory": {
+      "input_rows": 41,
+      "output_rows": 41,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "ProductDescription": {
+      "input_rows": 762,
+      "output_rows": 762,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "ProductModel": {
+      "input_rows": 128,
+      "output_rows": 128,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "ProductModelProductDescription": {
+      "input_rows": 762,
+      "output_rows": 762,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "SalesOrderDetail": {
+      "input_rows": 542,
+      "output_rows": 542,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    },
+    "SalesOrderHeader": {
+      "input_rows": 32,
+      "output_rows": 32,
+      "rejected_rows": 0,
+      "duplicate_rows_removed": 0
+    }
+  },
+  "source_net_sales": "708690.1533",
+  "gold_net_sales": "708690.1533",
+  "validation": "passed",
+  "samples": {
+    "sales_by_day": [
+      {
+        "OrderDate": "2008-06-01",
+        "Orders": 32,
+        "Customers": 32,
+        "Units": 2087,
+        "GrossSales": "714002.9136",
+        "DiscountAmount": "5312.7606",
+        "NetSales": "708690.1533",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:19.757574"
+      }
+    ],
+    "sales_by_product": [
+      {
+        "ProductID": 969,
+        "ProductName": "Touring-1000 Blue, 60",
+        "CategoryName": "Touring Bikes",
+        "Orders": 5,
+        "Units": 26,
+        "NetSales": "37191.4920",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 783,
+        "ProductName": "Mountain-200 Black, 42",
+        "CategoryName": "Mountain Bikes",
+        "Orders": 4,
+        "Units": 27,
+        "NetSales": "37178.8380",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 976,
+        "ProductName": "Road-350-W Yellow, 48",
+        "CategoryName": "Road Bikes",
+        "Orders": 5,
+        "Units": 42,
+        "NetSales": "36486.2355",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 782,
+        "ProductName": "Mountain-200 Black, 38",
+        "CategoryName": "Mountain Bikes",
+        "Orders": 6,
+        "Units": 26,
+        "NetSales": "35801.8440",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 957,
+        "ProductName": "Touring-1000 Yellow, 60",
+        "CategoryName": "Touring Bikes",
+        "Orders": 4,
+        "Units": 17,
+        "NetSales": "23413.4747",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 967,
+        "ProductName": "Touring-1000 Blue, 50",
+        "CategoryName": "Touring Bikes",
+        "Orders": 4,
+        "Units": 16,
+        "NetSales": "22887.0720",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 780,
+        "ProductName": "Mountain-200 Silver, 42",
+        "CategoryName": "Mountain Bikes",
+        "Orders": 5,
+        "Units": 15,
+        "NetSales": "20879.9100",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 973,
+        "ProductName": "Road-350-W Yellow, 40",
+        "CategoryName": "Road Bikes",
+        "Orders": 6,
+        "Units": 20,
+        "NetSales": "20411.8800",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 784,
+        "ProductName": "Mountain-200 Black, 46",
+        "CategoryName": "Mountain Bikes",
+        "Orders": 4,
+        "Units": 14,
+        "NetSales": "19277.9160",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      },
+      {
+        "ProductID": 974,
+        "ProductName": "Road-350-W Yellow, 42",
+        "CategoryName": "Road Bikes",
+        "Orders": 3,
+        "Units": 19,
+        "NetSales": "18692.5193",
+        "_pipeline_run_id": "39a61f4e-be8e-46bb-8d15-bb3a0146556e",
+        "_gold_processed_at": "2026-11-10 06:41:29.541494"
+      }
+    ]
+  }
+}

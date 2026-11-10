@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "description": "Run the SalesLT medallion pipeline every five minutes. Pipeline concurrency is one.",
+    "type": "ScheduleTrigger",
+    "typeProperties": {
+      "recurrence": {
+        "frequency": "Minute",
+        "interval": 5,
+        "startTime": "2026-11-10T06:44:00Z",
+        "timeZone": "UTC"
+      }
+    },
+    "pipelines": [
+      {
+        "pipelineReference": {
+          "referenceName": "pl_saleslt_medallion",
+          "type": "PipelineReference"
+        },
+        "parameters": {}
+      }
+    ]
+  }
+}

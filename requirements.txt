@@ -1,0 +1,6 @@
+requests>=2.32,<3
+python-tds>=1.16,<2
+pyOpenSSL>=24,<27
+certifi>=2024.2
+azure-storage-blob>=12.20,<13
+pyarrow>=18,<24

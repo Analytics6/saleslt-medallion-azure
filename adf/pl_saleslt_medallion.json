@@ -1,0 +1,196 @@
+{
+  "properties": {
+    "description": "SalesLT SQL full snapshot \u2192 Bronze \u2192 Silver \u2192 Gold. Three separate notebook activities; immutable run folders, quality checks, and Gold Parquet exports.",
+    "concurrency": 1,
+    "activities": [
+      {
+        "name": "Discover_SalesLT_Tables",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT t.name AS TableName,\nCOALESCE((SELECT STRING_AGG(CAST(QUOTENAME(c.name) AS nvarchar(max)),',') WITHIN GROUP (ORDER BY ic.key_ordinal) FROM sys.indexes i JOIN sys.index_columns ic ON i.object_id=ic.object_id AND i.index_id=ic.index_id JOIN sys.columns c ON c.object_id=ic.object_id AND c.column_id=ic.column_id WHERE i.object_id=t.object_id AND i.is_primary_key=1),'') AS QuotedPrimaryKeys,\nCOALESCE((SELECT STRING_AGG(CAST(c.name AS nvarchar(max)),',') WITHIN GROUP (ORDER BY ic.key_ordinal) FROM sys.indexes i JOIN sys.index_columns ic ON i.object_id=ic.object_id AND i.index_id=ic.index_id JOIN sys.columns c ON c.object_id=ic.object_id AND c.column_id=ic.column_id WHERE i.object_id=t.object_id AND i.is_primary_key=1),'') AS PrimaryKeys,\n'SELECT '+(SELECT STRING_AGG(CAST(CASE WHEN TYPE_NAME(c.system_type_id)='xml' THEN 'CAST('+QUOTENAME(c.name)+' AS nvarchar(max)) AS '+QUOTENAME(c.name) ELSE QUOTENAME(c.name) END AS nvarchar(max)),',') WITHIN GROUP (ORDER BY c.column_id) FROM sys.columns c WHERE c.object_id=t.object_id)+' FROM [SalesLT].'+QUOTENAME(t.name) AS SelectQuery\nFROM sys.tables t WHERE t.schema_id=SCHEMA_ID('SalesLT') ORDER BY t.name",
+            "queryTimeout": "00:05:00"
+          },
+          "dataset": {
+            "referenceName": "ds_saleslt_sql",
+            "type": "DatasetReference"
+          },
+          "firstRowOnly": false
+        }
+      },
+      {
+        "name": "Extract_SalesLT_to_Blob",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "Discover_SalesLT_Tables",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Discover_SalesLT_Tables').output.value",
+            "type": "Expression"
+          },
+          "isSequential": false,
+          "batchCount": 4,
+          "activities": [
+            {
+              "name": "Copy_SQL_Table_to_Bronze_Raw",
+              "type": "Copy",
+              "policy": {
+                "timeout": "0.00:20:00",
+                "retry": 1,
+                "retryIntervalInSeconds": 30
+              },
+              "inputs": [
+                {
+                  "referenceName": "ds_saleslt_sql",
+                  "type": "DatasetReference"
+                }
+              ],
+              "outputs": [
+                {
+                  "referenceName": "ds_saleslt_raw_parquet",
+                  "type": "DatasetReference",
+                  "parameters": {
+                    "run_id": {
+                      "value": "@pipeline().RunId",
+                      "type": "Expression"
+                    },
+                    "table_name": {
+                      "value": "@item().TableName",
+                      "type": "Expression"
+                    }
+                  }
+                }
+              ],
+              "typeProperties": {
+                "source": {
+                  "type": "AzureSqlSource",
+                  "sqlReaderQuery": {
+                    "value": "@item().SelectQuery",
+                    "type": "Expression"
+                  },
+                  "queryTimeout": "00:10:00"
+                },
+                "sink": {
+                  "type": "ParquetSink",
+                  "storeSettings": {
+                    "type": "AzureBlobFSWriteSettings"
+                  },
+                  "formatSettings": {
+                    "type": "ParquetWriteSettings"
+                  }
+                },
+                "enableStaging": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Bronze_Notebook",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          {
+            "activity": "Extract_SalesLT_to_Blob",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:30:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30
+        },
+        "linkedServiceName": {
+          "referenceName": "ls_saleslt_shared_compute",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/SalesLT_Medallion/01_bronze",
+          "baseParameters": {
+            "run_id": {
+              "value": "@pipeline().RunId",
+              "type": "Expression"
+            },
+            "tables_json": {
+              "value": "@string(activity('Discover_SalesLT_Tables').output.value)",
+              "type": "Expression"
+            }
+          }
+        }
+      },
+      {
+        "name": "Silver_Notebook",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          {
+            "activity": "Bronze_Notebook",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:30:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30
+        },
+        "linkedServiceName": {
+          "referenceName": "ls_saleslt_shared_compute",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/SalesLT_Medallion/02_silver",
+          "baseParameters": {
+            "run_id": {
+              "value": "@pipeline().RunId",
+              "type": "Expression"
+            }
+          }
+        }
+      },
+      {
+        "name": "Gold_Notebook",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          {
+            "activity": "Silver_Notebook",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:30:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30
+        },
+        "linkedServiceName": {
+          "referenceName": "ls_saleslt_shared_compute",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/SalesLT_Medallion/03_gold",
+          "baseParameters": {
+            "run_id": {
+              "value": "@pipeline().RunId",
+              "type": "Expression"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
