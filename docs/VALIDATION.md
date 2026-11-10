@@ -67,3 +67,7 @@ See [results.json](results.json) for complete machine-readable evidence.
 ## Source code
 
 Private repository: [Analytics6/saleslt-medallion-azure](https://github.com/Analytics6/saleslt-medallion-azure).
+
+## First scheduled firing
+
+The trigger fired successfully on 10 November 2026 at **12:14:01 PM IST** (06:44:01 UTC). It launched pipeline run `cbf44569-bace-4165-b548-e58dd7eb2ade`. This confirms scheduled dispatch; the complete validated manual run is reported above.
